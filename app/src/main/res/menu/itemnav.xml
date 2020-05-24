@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="پروفایل"
+        android:id="@+id/item_profile"
+        android:icon="@drawable/bn_profile_icon"/>
+
+    <item
+        android:title="ویترین"
+        android:id="@+id/item_vitrin"
+        android:icon="@drawable/bn_vitrin_icon"/>
+
+    <item
+        android:title="واحدها"
+        android:id="@+id/item_unit"
+        android:icon="@drawable/bn_unite_icon"/>
+
+    <item
+        android:title="صفحه اصلی"
+        android:id="@+id/item_home"
+        android:icon="@drawable/bn_home_icon"/>
+
+</menu>

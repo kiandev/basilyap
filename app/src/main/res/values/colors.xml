@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4B58A8</color>
+    <color name="colorPrimaryDark">#3c4684</color>
+    <color name="colorAccent">#E8EAF6</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGray50">#FAFAFA</color>
+    <color name="colorGray100">#EEEEEE</color>
+    <color name="colorGray200">#EEEEEE</color>
+    <color name="colorGray300">#E0E0E0</color>
+    <color name="colorGray400">#BDBDBD</color>
+    <color name="colorGray500">#9E9E9E</color>
+    <color name="colorGray600">#757575</color>
+    <color name="colorGray700">#616161</color>
+    <color name="colorGray800">#424242</color>
+    <color name="colorGray900">#212121</color>
+    <color name="colorTextAllActivity">#707384</color>
+    <color name="colorBorder">#666975</color>
+    <color name="colorBackgroundAllActivity">#F1F1F1</color>
+</resources>

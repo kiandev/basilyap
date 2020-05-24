@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "819846318708",
+    "firebase_url": "https://basilyap-95f3e.firebaseio.com",
+    "project_id": "basilyap-95f3e",
+    "storage_bucket": "basilyap-95f3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819846318708:android:8e6331d3080dd44d281f21",
+        "android_client_info": {
+          "package_name": "com.basilyap.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "819846318708-bc3dre51uchvsp5i9maiskvscrsuotbo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoCrLWWAhED35c2R_7K2n697Qjc1G54Hg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "819846318708-bc3dre51uchvsp5i9maiskvscrsuotbo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
