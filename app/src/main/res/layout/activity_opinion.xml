@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.OpinionActivity"
+    android:background="@color/colorBackgroundAllActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/btn_back"
+            android:fontFamily="@font/bold"
+            android:gravity="right|center"
+            android:text="ارسال نظر و پیشنهاد"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp"/>
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:src="@drawable/back"
+            android:rotation="-180"
+            android:padding="3dp"
+            android:layout_marginTop="2dp"
+            android:tint="@color/colorWhite" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:background="@color/colorBackgroundAllActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_marginTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/colorGray700"
+            android:fontFamily="@font/medium"
+            android:lineSpacingExtra="8dp"
+            android:textSize="14sp"
+            android:text="در صورت تمایل نظر یا پیشنهادات خود را با تیم ما در میان بگذارید"/>
+
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/txt_gettext"
+            android:lineSpacingExtra="8dp"
+            android:maxLength="1000"
+            android:inputType="textMultiLine"
+            android:layout_marginTop="20dp"
+            android:textSize="14sp"
+            android:textColor="@color/colorGray700"
+            android:gravity="top|right"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:background="@color/colorWhite"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:id="@+id/btn_send"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="3dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@color/colorPrimary">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="ارسال"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp"/>
+
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+
+</LinearLayout>

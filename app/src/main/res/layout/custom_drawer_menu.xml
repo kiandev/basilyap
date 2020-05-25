@@ -16,34 +16,15 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="30dp"
-            android:paddingBottom="40dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
             android:background="@color/colorBackgroundAllActivity">
 
             <ImageView
-                android:id="@+id/image_Profile"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:tint="@color/colorTextAllActivity"
-                android:src="@drawable/avatar"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="نام کاربری"
-                android:textColor="@color/colorGray800"
-                android:textSize="17sp"
-                android:fontFamily="@font/bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="پروفایل من"
-                android:textColor="@color/colorGray700"
-                android:textSize="12sp"
-                android:fontFamily="@font/regular"/>
+                android:layout_width="180dp"
+                android:layout_height="70dp"
+                android:src="@drawable/basilyap_logo"
+                android:padding="10dp"/>
 
         </LinearLayout>
 
@@ -53,46 +34,6 @@
             android:orientation="vertical"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginRight="25dp"
-                android:layout_marginLeft="25dp"
-                android:id="@+id/btnSettings"
-                android:gravity="right"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="تنظیمات"
-                    android:textColor="@color/colorGray700"
-                    android:textSize="15sp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:fontFamily="@font/regular"/>
-
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/settings_icon"
-                    android:padding="8dp"
-                    android:tint="@color/colorGray500"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorGray300"
-                android:layout_marginRight="35dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

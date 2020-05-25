@@ -84,4 +84,8 @@ public class MainActivity extends AppCompatActivity {
     public void btnAbout_click (View view){
         startActivity(new Intent(MainActivity.this,AboutActivity.class));
     }
+
+    public void btnComunication_click (View view){
+        startActivity(new Intent(MainActivity.this,ComunicationActivity.class));
+    }
 }

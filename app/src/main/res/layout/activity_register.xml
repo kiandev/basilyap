@@ -218,7 +218,7 @@
             android:fontFamily="@font/regular"
             android:textSize="14sp"
             android:lineSpacingExtra="8dp"
-            android:text="کلمه عبور شما باید حداقل 6 حرف باشد"/>
+            android:text="کلمه عبور شما باید حداقل 6 عدد باشد"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:layout_width="match_parent"

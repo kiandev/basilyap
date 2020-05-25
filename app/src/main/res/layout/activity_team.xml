@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackgroundAllActivity"
     android:orientation="vertical"
-    tools:context=".activity.AboutActivity">
+    tools:context=".activity.TeamActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:layout_toLeftOf="@+id/btn_back"
             android:fontFamily="@font/bold"
             android:gravity="right|center"
-            android:text="درباره ما"
+            android:text="درباره تیم برنامه نویسی"
             android:textColor="@color/colorWhite"
             android:textSize="17sp"/>
 
@@ -46,6 +46,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="visible"
         android:id="@+id/no_internet"
         android:orientation="vertical"
         android:layout_gravity="center"
@@ -91,7 +92,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/progressbar">
+        android:id="@+id/progressbar"
+        android:visibility="visible">
 
         <ProgressBar
             android:layout_width="match_parent"
@@ -103,8 +105,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/main_line"
-        android:visibility="gone">
+        android:id="@+id/main_line">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/aboutus_back" />
+                    android:src="@drawable/team_back" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -127,9 +128,10 @@
                     android:textColor="@color/colorWhite"
                     android:textSize="16sp"
                     android:fontFamily="@font/bold"
-                    android:gravity="left"
-                    android:layout_marginLeft="50dp"
-                    android:layout_centerVertical="true"/>
+                    android:gravity="right"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:paddingBottom="20dp"/>
 
             </RelativeLayout>
 
@@ -162,7 +164,7 @@
                             android:layout_marginRight="5dp"
                             android:layout_toLeftOf="@+id/about_icon"
                             android:gravity="right|center"
-                            android:text="داستان ما"
+                            android:text="درباره"
                             android:textColor="@color/colorGray800"
                             android:textSize="15sp" />
 
@@ -188,146 +190,7 @@
                         android:background="@color/colorGray300" />
 
                     <TextView
-                        android:id="@+id/about"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:justificationMode="inter_word"
-                        android:lineSpacingExtra="8dp"
-                        android:padding="20dp"
-                        android:textColor="@color/colorGray600"
-                        android:textSize="14sp" />
-
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/colorWhite"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="5dp"
-                app:cardCornerRadius="3dp"
-                app:cardElevation="3dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="5dp"
-                            android:layout_toLeftOf="@+id/which_icon"
-                            android:gravity="right|center"
-                            android:text="ما چه کاری انجام می دهیم"
-                            android:textColor="@color/colorGray800"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:id="@+id/which_icon"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="30dp"
-                            android:clickable="true"
-                            android:padding="9dp"
-                            android:tint="#ef5350"
-                            android:src="@drawable/which_icon" />
-
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@color/colorGray300" />
-
-                    <TextView
-                        android:id="@+id/which"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:justificationMode="inter_word"
-                        android:lineSpacingExtra="8dp"
-                        android:padding="20dp"
-                        android:textColor="@color/colorGray600"
-                        android:textSize="14sp" />
-
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/colorWhite"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="10dp"
-                app:cardCornerRadius="3dp"
-                app:cardElevation="3dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="5dp"
-                            android:layout_toLeftOf="@+id/why_icon"
-                            android:gravity="right|center"
-                            android:text="چرا باید ما را انتخاب کنید"
-                            android:textColor="@color/colorGray800"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:id="@+id/why_icon"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="30dp"
-                            android:clickable="true"
-                            android:padding="9dp"
-                            android:tint="#66BB6A"
-                            android:src="@drawable/why_icon" />
-
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@color/colorGray300" />
-
-                    <TextView
-                        android:id="@+id/why"
+                        android:id="@+id/text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:justificationMode="inter_word"

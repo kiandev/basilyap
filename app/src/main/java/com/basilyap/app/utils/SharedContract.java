@@ -10,4 +10,6 @@ public class SharedContract {
     public static String Password = "password";
 
     public static String Token_Id = "token_id";
+
+    public static String Register_OK = "register_ok";
 }

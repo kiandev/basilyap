@@ -1,5 +1,6 @@
 package com.basilyap.app.fragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.basilyap.app.R;
 import com.basilyap.app.activity.MainActivity;
+import com.basilyap.app.activity.OpinionActivity;
+import com.basilyap.app.activity.TeamActivity;
 import com.basilyap.app.adapter.UnitBaseAdapterHome;
 import com.basilyap.app.model.UnitBase;
 import com.basilyap.app.utils.HttpUrl;
@@ -47,6 +50,7 @@ public class Fragment_Home extends Fragment {
     ScrollView main_line;
     LinearLayout no_internet;
     Button btn_again;
+    LinearLayout btnMessage, btnTeam, btnSend;
 
 
     @Override
@@ -63,6 +67,34 @@ public class Fragment_Home extends Fragment {
         no_internet = view.findViewById(R.id.no_internet);
         main_line = view.findViewById(R.id.main_line);
         btn_again = view.findViewById(R.id.btn_again);
+
+        btnMessage = view.findViewById(R.id.btnMessage);
+        btnMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), OpinionActivity.class));
+            }
+        });
+
+        btnTeam = view.findViewById(R.id.btnTeam);
+        btnTeam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), TeamActivity.class));
+            }
+        });
+
+        btnSend = view.findViewById(R.id.btnSend);
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT,"اپلیکیشن بازیل یاپ را با دیگران به اشتراک بگذارید : https://play.google.com/store/apps/details?id=com.android.chrome");
+                intent.setType("text/plain");
+                startActivity(intent);
+            }
+        });
 
         btn_again.setOnClickListener(new View.OnClickListener() {
             @Override
