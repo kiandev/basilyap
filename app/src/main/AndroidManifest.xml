@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ComunicationActivity"></activity>
+        <activity android:name=".activity.UnitShowActivity"></activity>
+        <activity android:name=".activity.ComunicationActivity" />
         <activity android:name=".activity.TeamActivity" />
         <activity android:name=".activity.OpinionActivity" />
         <activity android:name=".activity.RegisterActivity" />

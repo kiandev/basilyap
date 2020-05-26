@@ -101,7 +101,7 @@ public class Fragment_Units extends Fragment {
     }
 
     private void loadUnitBase() {
-        String URL = HttpUrl.url + "unit_base";
+        String URL = HttpUrl.url + "unit/base";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
                 new Response.Listener<String>() {
                     @Override

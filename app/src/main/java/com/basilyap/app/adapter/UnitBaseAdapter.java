@@ -1,6 +1,7 @@
 package com.basilyap.app.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.basilyap.app.R;
+import com.basilyap.app.activity.UnitShowActivity;
 import com.basilyap.app.classes.GlideApp;
 import com.basilyap.app.model.UnitBase;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -54,17 +56,17 @@ public class UnitBaseAdapter extends RecyclerView.Adapter<UnitBaseAdapter.ViewHo
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.image);
 
-//        holder.btnFood.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, ShowFoodActivity.class);
-//                intent.putExtra("name" , food.getName());
-//                intent.putExtra("image" , food.getImage());
-//                intent.putExtra("text" , food.getText());
-//                intent.putExtra("price" , String.valueOf(food.getPrice()));
-//                context.startActivity(intent);
-//            }
-//        });
+        holder.btnItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, UnitShowActivity.class);
+                intent.putExtra("name" , unitBase.getName());
+                intent.putExtra("type" , unitBase.getType());
+                intent.putExtra("region" , unitBase.getRegion());
+                intent.putExtra("price" , String.valueOf(unitBase.getPrice()));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
