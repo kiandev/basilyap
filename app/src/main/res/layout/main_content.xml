@@ -12,6 +12,7 @@
         android:id="@+id/no_internet"
         android:orientation="vertical"
         android:layout_gravity="center"
+        android:visibility="gone"
         android:gravity="center">
 
         <ImageView
@@ -55,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/main_line"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -111,6 +112,7 @@
                             android:layout_marginTop="30dp"
                             android:layout_marginRight="30dp"
                             android:id="@+id/btnMenu"
+                            android:onClick="btnMenu_Click"
                             android:src="@drawable/menu_button"
                             android:clickable="true"
                             android:layout_alignParentRight="true"/>
@@ -127,7 +129,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="85dp"
                         app:cardCornerRadius="5dp"
                         app:cardElevation="5dp"
@@ -135,17 +137,23 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginBottom="10dp">
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="250dp">
+
+                            <ProgressBar
+                                android:layout_width="match_parent"
+                                android:layout_height="250dp"
+                                android:id="@+id/pb_top_banner"
+                                android:padding="100dp"/>
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/topbanner_background"/>
+                                android:id="@+id/top_banner"
+                                android:scaleType="fitXY"/>
 
-                        </LinearLayout>
+                        </RelativeLayout>
 
                     </androidx.cardview.widget.CardView>
 
@@ -188,7 +196,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="240dp"
+                    android:layout_height="230dp"
                     android:orientation="vertical">
 
                     <ProgressBar
@@ -288,13 +296,22 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="230dp"
+                    android:orientation="vertical">
+
+                    <ProgressBar
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/pb_unitspecial"
+                        android:visibility="visible"
+                        android:padding="80dp"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:visibility="gone"
                         android:layout_marginRight="10dp"
-                        android:id="@+id/recycler_view_special"/>
+                        android:id="@+id/recyclerView_special"/>
 
                 </LinearLayout>
 

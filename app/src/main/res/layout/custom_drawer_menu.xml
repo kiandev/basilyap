@@ -81,6 +81,46 @@
                 android:orientation="horizontal"
                 android:layout_marginRight="25dp"
                 android:layout_marginLeft="25dp"
+                android:id="@+id/btnRating"
+                android:gravity="right"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="امتیاز به بازیل یاپ"
+                    android:textColor="@color/colorGray700"
+                    android:textSize="15sp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/regular"/>
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/star_icon"
+                    android:padding="7dp"
+                    android:tint="@color/colorGray500"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGray300"
+                android:layout_marginRight="35dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
                 android:id="@+id/btnMessage"
                 android:gravity="right"
                 android:clickable="true"
@@ -154,6 +194,7 @@
                 android:layout_marginLeft="35dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"/>
+
 
         </LinearLayout>
 

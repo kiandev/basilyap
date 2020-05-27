@@ -1,19 +1,31 @@
 package com.basilyap.app.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import com.basilyap.app.R;
+import com.basilyap.app.activity.MainActivity;
+import com.basilyap.app.activity.UnitShowActivity;
 import com.basilyap.app.classes.GlideApp;
 import com.basilyap.app.model.UnitBase;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 
@@ -22,6 +34,7 @@ public class UnitBaseAdapterHome extends RecyclerView.Adapter<UnitBaseAdapterHom
 
     private ArrayList<UnitBase> os_version;
     private Context context;
+    public static final String TAG = MainActivity.TAG;
 
     public UnitBaseAdapterHome(ArrayList<UnitBase> arrayList) {
         os_version = arrayList;
@@ -39,29 +52,46 @@ public class UnitBaseAdapterHome extends RecyclerView.Adapter<UnitBaseAdapterHom
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final UnitBase unitBase = os_version.get(position);
+        holder.unit_id = unitBase.getUnit_id();
+        holder.project_id = unitBase.getProject_id();
         holder.name.setText("کد : " + unitBase.getName());
         holder.price.setText(String.valueOf(unitBase.getPrice()) + " لیر");
 
         GlideApp
                 .with(context)
                 .load(unitBase.getImage())
-                .placeholder(context.getResources().getDrawable(R.drawable.basifood_logo_placeholder))
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        holder.progressbar.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        holder.progressbar.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(false)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.image);
 
-//        holder.btnFood.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, ShowFoodActivity.class);
-//                intent.putExtra("name" , food.getName());
-//                intent.putExtra("image" , food.getImage());
-//                intent.putExtra("text" , food.getText());
-//                intent.putExtra("price" , String.valueOf(food.getPrice()));
-//                context.startActivity(intent);
-//            }
-//        });
+        holder.btnUnit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, UnitShowActivity.class);
+                intent.putExtra("unit_id" , holder.unit_id);
+                intent.putExtra("project_id" , holder.project_id);
+                Log.d(TAG, "onClick: " + holder.unit_id);
+                intent.putExtra("name" , unitBase.getName());
+                intent.putExtra("type" , unitBase.getType());
+                intent.putExtra("region" , unitBase.getRegion());
+                intent.putExtra("price" , String.valueOf(unitBase.getPrice()));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -79,13 +109,16 @@ public class UnitBaseAdapterHome extends RecyclerView.Adapter<UnitBaseAdapterHom
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        String unit_id, project_id;
         TextView name, price;
         ImageView image;
-        LinearLayout btnUnit;
+        RelativeLayout btnUnit;
+        ProgressBar progressbar;
 
 
         public ViewHolder(View view) {
             super(view);
+            progressbar = itemView.findViewById(R.id.progressbar);
             name = itemView.findViewById(R.id.name);
             price = itemView.findViewById(R.id.price);
             image = itemView.findViewById(R.id.image);

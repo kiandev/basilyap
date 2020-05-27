@@ -1,6 +1,6 @@
 package com.basilyap.app.model;
 
-public class UnitBase {
+public class UnitBaseSpecial {
 
     private int id;
     private String unit_id;
@@ -12,7 +12,7 @@ public class UnitBase {
     private String project_id;
     private int special;
 
-    public UnitBase(int id, String unit_id, String name, int price, String image, String type, String region, String project_id, int special) {
+    public UnitBaseSpecial(int id, String unit_id, String name, int price, String image, String type, String region, String project_id, int special) {
         this.id = id;
         this.unit_id = unit_id;
         this.name = name;
@@ -24,7 +24,7 @@ public class UnitBase {
         this.special = special;
     }
 
-    public UnitBase() {
+    public UnitBaseSpecial() {
     }
 
     public int getId() {

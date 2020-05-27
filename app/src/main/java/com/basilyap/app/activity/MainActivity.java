@@ -3,6 +3,7 @@ package com.basilyap.app.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -10,8 +11,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.basilyap.app.R;
 import com.basilyap.app.fragment.Fragment_Home;
@@ -87,5 +91,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void btnComunication_click (View view){
         startActivity(new Intent(MainActivity.this,ComunicationActivity.class));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (exit) {
+            moveTaskToBack(true);
+//                super.onBackPressed();
+//                finish();
+        } else {
+            Toast.makeText(this, "برای خروج کلید بازگشت را مجدد فشار دهید !",
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
+
+        }
     }
 }

@@ -113,13 +113,14 @@ public class Fragment_Units extends Fragment {
                                 JSONObject unitbase = array.getJSONObject(i);
                                 os_version_unitbase.add(new UnitBase(
                                         unitbase.getInt("id"),
-                                        unitbase.getInt("unit_id"),
+                                        unitbase.getString("unit_id"),
                                         unitbase.getString("name"),
                                         unitbase.getInt("price"),
                                         unitbase.getString("image"),
                                         unitbase.getString("type"),
                                         unitbase.getString("region"),
-                                        unitbase.getInt("project_id")
+                                        unitbase.getString("project_id"),
+                                        unitbase.getInt("special")
                                 ));
                             }
                             progressbar.setVisibility(View.GONE);

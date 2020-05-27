@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@color/colorBackgroundAllActivity">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/medium"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="14sp"
+        android:lineSpacingExtra="8dp"
+        android:textColor="@color/colorGray700"
+        android:layout_toRightOf="@+id/image"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dialogButtonNo"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:elevation="3dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_height="45dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_no"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"
+            android:text="خیر"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="7dp"
+            android:layout_below="@+id/image"/>
+
+        <Button
+            android:id="@+id/dialogButtonYes"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:elevation="3dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_height="45dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_yes"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"
+            android:text="بلی"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="7dp"
+            android:layout_below="@+id/image"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

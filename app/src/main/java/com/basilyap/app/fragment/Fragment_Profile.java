@@ -10,6 +10,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,11 +29,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.basilyap.app.R;
+import com.basilyap.app.activity.AccountActivity;
 import com.basilyap.app.activity.MainActivity;
+import com.basilyap.app.activity.PasswordActivity;
 import com.basilyap.app.activity.RegisterActivity;
 import com.basilyap.app.utils.HttpUrl;
 import com.basilyap.app.utils.NetTest;
 import com.basilyap.app.utils.SharedContract;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +50,8 @@ public class Fragment_Profile extends Fragment {
     CardView btn_login, btn_register;
     LinearLayout login_line, main_line;
     AppCompatEditText txt_getemail, txt_getpass;
+    TextView txt_profile_name;
+    LinearLayout btnAccount, btnExit, btnPassword;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +67,9 @@ public class Fragment_Profile extends Fragment {
         txt_getemail = view.findViewById(R.id.txt_getemail);
         txt_getpass = view.findViewById(R.id.txt_getpass);
 
-        String get_tokenid = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SharedContract.Token_Id, null);
+        txt_profile_name = view.findViewById(R.id.txt_profile_name);
+
+        final String get_tokenid = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SharedContract.Token_Id, null);
         Log.d(TAG, "onCreateView: " + get_tokenid);
 
         login_line = view.findViewById(R.id.login_line);
@@ -90,6 +101,57 @@ public class Fragment_Profile extends Fragment {
             }
         });
 
+        btnAccount = view.findViewById(R.id.btnAccount);
+        btnAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AccountActivity.class));
+            }
+        });
+
+        btnExit = view.findViewById(R.id.btnExit);
+        btnExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.custom_dialog_question);
+                TextView text = dialog.findViewById(R.id.text);
+                dialog.setCancelable(false);
+                text.setText("آیا مطمئین هستید که میخواهید از حساب کاربری خارج شوید؟");
+                Button yesButton = dialog.findViewById(R.id.dialogButtonYes);
+                Button noButton = dialog.findViewById(R.id.dialogButtonNo);
+                yesButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Register_OK,"no").apply();
+                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Email,"").apply();
+                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Password,"").apply();
+                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Name,"").apply();
+                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Phone,"").apply();
+                        Toast.makeText(getActivity(), "با موفقیت از حساب کاربری خارج شدید", Toast.LENGTH_SHORT).show();
+                        txt_profile_name.setText("");
+                        login_line.setVisibility(View.VISIBLE);
+                        main_line.setVisibility(View.GONE);
+                        dialog.dismiss();
+                    }
+                });
+                noButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        });
+
+        btnPassword = view.findViewById(R.id.btnPassword);
+        btnPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), PasswordActivity.class));
+            }
+        });
 
         return view;
     }
@@ -98,6 +160,8 @@ public class Fragment_Profile extends Fragment {
     public void onResume() {
         String get_register_ok_from_shared = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SharedContract.Register_OK, "no");
         if (get_register_ok_from_shared.equals("yes")) {
+            String get_email_from_shared = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SharedContract.Email, "");
+            txt_profile_name.setText(get_email_from_shared);
             login_line.setVisibility(View.GONE);
             main_line.setVisibility(View.VISIBLE);
         }
@@ -112,12 +176,7 @@ public class Fragment_Profile extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         Log.d(TAG, "onResponse: " + response);
-                        if (response.equals("1")) {
-                            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Register_OK, "yes").apply();
-                            Toast.makeText(getActivity(), "با موفقیت وارد حساب کاربری شدید", Toast.LENGTH_SHORT).show();
-                            login_line.setVisibility(View.GONE);
-                            main_line.setVisibility(View.VISIBLE);
-                        } else {
+                        if (response.equals("[]")) {
                             final Dialog dialog = new Dialog(getActivity());
                             dialog.setContentView(R.layout.custom_dialog);
 //                            dialog.setTitle("Title...");
@@ -132,6 +191,30 @@ public class Fragment_Profile extends Fragment {
                                 }
                             });
                             dialog.show();
+                        } else {
+                            try {
+                                JSONArray jsonarray = new JSONArray(response);
+                                for (int i = 0; i < jsonarray.length(); i++) {
+                                    JSONObject jsonobject = jsonarray.getJSONObject(i);
+                                    String get_name = jsonobject.getString("name");
+                                    String get_email = jsonobject.getString("email");
+                                    String get_password = jsonobject.getString("password");
+                                    String get_phone = jsonobject.getString("phone");
+                                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Name, get_name).apply();
+                                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Email, get_email).apply();
+                                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Password, get_password).apply();
+                                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Phone, get_phone).apply();
+                                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Register_OK, "yes").apply();
+                                    Toast.makeText(getActivity(), "با موفقیت وارد حساب کاربری شدید", Toast.LENGTH_SHORT).show();
+                                    txt_getemail.setText("");
+                                    txt_getpass.setText("");
+                                    txt_profile_name.setText(get_email);
+                                    login_line.setVisibility(View.GONE);
+                                    main_line.setVisibility(View.VISIBLE);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 },
