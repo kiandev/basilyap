@@ -30,6 +30,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.basilyap.app.R;
 import com.basilyap.app.activity.MainActivity;
+import com.basilyap.app.activity.NotificationActivity;
 import com.basilyap.app.activity.OpinionActivity;
 import com.basilyap.app.activity.TeamActivity;
 import com.basilyap.app.adapter.UnitBaseAdapterHome;
@@ -68,7 +69,7 @@ public class Fragment_Home extends Fragment {
     Button btn_again;
     LinearLayout btnMessage, btnTeam, btnSend;
     DrawerLayout drawerLayout;
-    ImageView btnMenu;
+    ImageView btnMenu, btnNotification;
     ImageView top_banner;
     ProgressBar pb_top_banner;
 
@@ -111,6 +112,15 @@ public class Fragment_Home extends Fragment {
 
 
         drawerLayout = view.findViewById(R.id.drawer_layout);
+
+        btnNotification = view.findViewById(R.id.btnNotification);
+        btnNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), NotificationActivity.class));
+            }
+        });
+
         btnMenu = view.findViewById(R.id.btnMenu);
 
         btnMenu.setOnClickListener(new View.OnClickListener() {

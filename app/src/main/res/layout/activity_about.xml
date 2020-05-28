@@ -25,7 +25,7 @@
             android:gravity="right|center"
             android:text="درباره ما"
             android:textColor="@color/colorWhite"
-            android:textSize="17sp"/>
+            android:textSize="17sp" />
 
         <ImageView
             android:id="@+id/btn_back"
@@ -33,77 +33,77 @@
             android:layout_height="25dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginTop="2dp"
             android:layout_marginRight="10dp"
             android:clickable="true"
-            android:src="@drawable/back"
-            android:rotation="-180"
             android:padding="3dp"
-            android:layout_marginTop="2dp"
+            android:rotation="-180"
+            android:src="@drawable/back"
             android:tint="@color/colorWhite" />
 
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/no_internet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/no_internet"
-        android:orientation="vertical"
         android:layout_gravity="center"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_gravity="center"
             android:padding="15dp"
             android:src="@drawable/no_internet"
-            android:layout_gravity="center"
-            android:tint="@color/colorGray600"/>
+            android:tint="@color/colorGray600" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="اتصال به اینترنت برقرار نیست !"
             android:layout_gravity="center"
-            android:textSize="16sp"
-            android:textColor="@color/colorGray700"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/bold"
             android:gravity="center"
-            android:fontFamily="@font/bold"/>
+            android:text="اتصال به اینترنت برقرار نیست !"
+            android:textColor="@color/colorGray700"
+            android:textSize="16sp" />
 
         <Button
+            android:id="@+id/btn_again"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/button_ok"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:id="@+id/btn_again"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="50dp"
-            android:paddingRight="30dp"
             android:paddingLeft="30dp"
-            android:background="@drawable/button_ok"
-            android:textSize="16sp"
+            android:paddingRight="30dp"
+            android:text="تلاش مجدد"
             android:textColor="@color/colorWhite"
-            android:text="تلاش مجدد"/>
+            android:textSize="16sp" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/progressbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/progressbar">
+        android:layout_height="match_parent">
 
         <ProgressBar
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="150dp"/>
+            android:padding="150dp" />
 
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/main_line"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/main_line"
         android:visibility="gone">
 
         <LinearLayout
@@ -124,23 +124,23 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16sp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dp"
                     android:fontFamily="@font/bold"
                     android:gravity="left"
-                    android:layout_marginLeft="50dp"
-                    android:layout_centerVertical="true"/>
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp" />
 
             </RelativeLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/colorWhite"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="@color/colorWhite"
                 app:cardCornerRadius="3dp"
                 app:cardElevation="3dp">
 
@@ -175,8 +175,8 @@
                             android:layout_marginRight="30dp"
                             android:clickable="true"
                             android:padding="9dp"
-                            android:tint="#5C6BC0"
-                            android:src="@drawable/about_icon" />
+                            android:src="@drawable/about_icon"
+                            android:tint="#5C6BC0" />
 
                     </RelativeLayout>
 
@@ -205,11 +205,11 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/colorWhite"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="@color/colorWhite"
                 app:cardCornerRadius="3dp"
                 app:cardElevation="3dp">
 
@@ -244,8 +244,8 @@
                             android:layout_marginRight="30dp"
                             android:clickable="true"
                             android:padding="9dp"
-                            android:tint="#ef5350"
-                            android:src="@drawable/which_icon" />
+                            android:src="@drawable/which_icon"
+                            android:tint="#ef5350" />
 
                     </RelativeLayout>
 
@@ -275,11 +275,11 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/colorWhite"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="10dp"
+                app:cardBackgroundColor="@color/colorWhite"
                 app:cardCornerRadius="3dp"
                 app:cardElevation="3dp">
 
@@ -314,8 +314,8 @@
                             android:layout_marginRight="30dp"
                             android:clickable="true"
                             android:padding="9dp"
-                            android:tint="#66BB6A"
-                            android:src="@drawable/why_icon" />
+                            android:src="@drawable/why_icon"
+                            android:tint="#66BB6A" />
 
                     </RelativeLayout>
 

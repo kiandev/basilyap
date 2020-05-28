@@ -30,6 +30,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.basilyap.app.R;
 import com.basilyap.app.activity.AccountActivity;
+import com.basilyap.app.activity.ChatListActivity;
 import com.basilyap.app.activity.MainActivity;
 import com.basilyap.app.activity.PasswordActivity;
 import com.basilyap.app.activity.RegisterActivity;
@@ -51,7 +52,7 @@ public class Fragment_Profile extends Fragment {
     LinearLayout login_line, main_line;
     AppCompatEditText txt_getemail, txt_getpass;
     TextView txt_profile_name;
-    LinearLayout btnAccount, btnExit, btnPassword;
+    LinearLayout btnAccount, btnExit, btnPassword, btnChat;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,14 @@ public class Fragment_Profile extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), RegisterActivity.class));
+            }
+        });
+
+        btnChat = view.findViewById(R.id.btnChat);
+        btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ChatListActivity.class));
             }
         });
 

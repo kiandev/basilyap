@@ -58,12 +58,12 @@ public class UnitShowActivity extends AppCompatActivity {
     TextView txt_measure, txt_room, txt_floor, txt_status;
     TextView txt_project_measure, txt_project_unit, txt_project_floor, txt_project_born;
     TextView txt_project_facility, txt_project_distance;
-    String unit_id, project_id;
+    String unit_id, project_id, unit_name;
     ProgressBar pb_unitadvance, pb_project;
     CardView line_unitadvance, line_project;
     LinearLayout no_internet;
     ScrollView main_line;
-    Button btn_again;
+    Button btn_again, btnChat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +133,7 @@ public class UnitShowActivity extends AppCompatActivity {
         unit_id = intent.getStringExtra("unit_id");
         project_id = intent.getStringExtra("project_id");
         String get_name_from_another_activity = intent.getStringExtra("name");
+        unit_name = intent.getStringExtra("name");
         String get_type_from_another_activity = intent.getStringExtra("type");
         String get_region_from_another_activity = intent.getStringExtra("region");
         String get_price_from_another_activity = intent.getStringExtra("price");
@@ -167,6 +168,17 @@ public class UnitShowActivity extends AppCompatActivity {
                 }
             });
         }
+
+        btnChat = findViewById(R.id.btnChat);
+        btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UnitShowActivity.this, ChatActivity.class);
+                intent.putExtra("unit_id" , unit_id);
+                intent.putExtra("unit_name" , unit_name);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -219,25 +231,25 @@ public class UnitShowActivity extends AppCompatActivity {
                 mPager.setCurrentItem(currentPage++, true);
             }
         };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 3000, 3000);
-        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-//                                    currentPage = position;
-            }
-            @Override
-            public void onPageScrolled(int pos, float arg1, int arg2) {
-            }
-            @Override
-            public void onPageScrollStateChanged(int pos) {
-            }
-        });
+//        Timer swipeTimer = new Timer();
+//        swipeTimer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                handler.post(Update);
+//            }
+//        }, 5000, 5000);
+//        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageSelected(int position) {
+////                                    currentPage = position;
+//            }
+//            @Override
+//            public void onPageScrolled(int pos, float arg1, int arg2) {
+//            }
+//            @Override
+//            public void onPageScrollStateChanged(int pos) {
+//            }
+//        });
     }
 
     public void loadUnitAdvances() {

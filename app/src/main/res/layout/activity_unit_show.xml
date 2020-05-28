@@ -820,6 +820,56 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/line_chat"
+                android:visibility="visible"
+                app:cardBackgroundColor="@color/colorWhite"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="اگر سوالی در خصوص واحد مذکور دارید از کارشناسان ما بپرسید"
+                        android:textColor="@color/colorGray800"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center"
+                        android:lineSpacingExtra="8dp"
+                        android:textSize="14sp"/>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btnChat"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginBottom="20dp"
+                        android:elevation="3dp"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp"
+                        android:text="سوال دارم"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:background="@drawable/button_google"/>
+
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
 
         </LinearLayout>
 

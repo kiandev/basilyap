@@ -393,7 +393,7 @@
                     android:orientation="horizontal"
                     android:layout_marginRight="25dp"
                     android:layout_marginLeft="25dp"
-                    android:id="@+id/btnMessage"
+                    android:id="@+id/btnChat"
                     android:gravity="right"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground">
