@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
     android:orientation="vertical"
-    android:background="@color/colorWhite">
+    android:background="@color/colorBackgroundAllActivity">
 
     <include
         layout="@layout/main_content"

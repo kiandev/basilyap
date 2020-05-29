@@ -6,21 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.SplashActivity"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorBackgroundAllActivity"
     android:orientation="vertical">
 
     <ImageView
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:src="@drawable/basilyap_logo"
-        android:padding="30dp"
+        android:src="@drawable/basilyap_splash"
+        android:padding="25dp"
         android:layout_gravity="center"
         android:layout_marginTop="70dp"/>
 
     <ProgressBar
         style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="100dp"
         android:theme="@style/CircularProgress"
         android:layout_gravity="center"/>

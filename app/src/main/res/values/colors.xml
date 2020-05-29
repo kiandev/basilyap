@@ -16,5 +16,5 @@
     <color name="colorGray900">#212121</color>
     <color name="colorTextAllActivity">#707384</color>
     <color name="colorBorder">#666975</color>
-    <color name="colorBackgroundAllActivity">#F1F1F1</color>
+    <color name="colorBackgroundAllActivity">#EEEEEE</color>
 </resources>

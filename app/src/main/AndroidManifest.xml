@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ChatListActivity"></activity>
+        <activity android:name=".activity.ForgetActivity"></activity>
+        <activity android:name=".activity.BugActivity" />
+        <activity android:name=".activity.ChatListActivity" />
         <activity android:name=".activity.ChatActivity" />
         <activity android:name=".activity.NotificationActivity" />
         <activity android:name=".activity.PasswordActivity" />
@@ -33,7 +35,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/instagram_icon" />
+            android:resource="@drawable/notification" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />

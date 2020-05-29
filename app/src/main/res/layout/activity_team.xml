@@ -178,7 +178,7 @@
                             android:clickable="true"
                             android:padding="9dp"
                             android:tint="#5C6BC0"
-                            android:src="@drawable/about_icon" />
+                            android:src="@drawable/imac_icon" />
 
                     </RelativeLayout>
 

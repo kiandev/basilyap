@@ -29,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.basilyap.app.R;
+import com.basilyap.app.activity.BugActivity;
 import com.basilyap.app.activity.MainActivity;
 import com.basilyap.app.activity.NotificationActivity;
 import com.basilyap.app.activity.OpinionActivity;
@@ -67,7 +68,7 @@ public class Fragment_Home extends Fragment {
     ScrollView main_line;
     LinearLayout no_internet;
     Button btn_again;
-    LinearLayout btnMessage, btnTeam, btnSend;
+    LinearLayout btnMessage, btnTeam, btnSend, btnBug;
     DrawerLayout drawerLayout;
     ImageView btnMenu, btnNotification;
     ImageView top_banner;
@@ -147,6 +148,14 @@ public class Fragment_Home extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), TeamActivity.class));
+            }
+        });
+
+        btnBug = view.findViewById(R.id.btnBug);
+        btnBug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), BugActivity.class));
             }
         });
 

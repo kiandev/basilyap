@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -101,7 +102,6 @@ public class UnitShowActivity extends AppCompatActivity {
         });
 
 
-
         pb_unitadvance = findViewById(R.id.pb_unitadvance);
         pb_project = findViewById(R.id.pb_project);
         line_unitadvance = findViewById(R.id.line_unitadvance);
@@ -173,10 +173,28 @@ public class UnitShowActivity extends AppCompatActivity {
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UnitShowActivity.this, ChatActivity.class);
-                intent.putExtra("unit_id" , unit_id);
-                intent.putExtra("unit_name" , unit_name);
-                startActivity(intent);
+                String get_register_form_share = PreferenceManager.getDefaultSharedPreferences(UnitShowActivity.this).getString(SharedContract.Register_OK, "no");
+                if (get_register_form_share.equals("no")) {
+                    final Dialog dialog = new Dialog(UnitShowActivity.this);
+                    dialog.setContentView(R.layout.custom_dialog);
+//                            dialog.setTitle("Title...");
+                    TextView text = dialog.findViewById(R.id.text);
+                    dialog.setCancelable(false);
+                    text.setText("جهت ارسال سوال لطفا ابتدا از طریق بخش پروفایل کاربری وارد حساب کاربری خود شوید");
+                    Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
+                    dialogButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                } else {
+                    Intent intent = new Intent(UnitShowActivity.this, ChatActivity.class);
+                    intent.putExtra("unit_id", unit_id);
+                    intent.putExtra("unit_name", unit_name);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -216,7 +234,7 @@ public class UnitShowActivity extends AppCompatActivity {
 
     }
 
-    public void slider_image(){
+    public void slider_image() {
         mPager.setAdapter(mAdapter_unitiamge);
         indicator.setViewPager(mPager);
         final float density = getResources().getDisplayMetrics().density;
@@ -285,7 +303,7 @@ public class UnitShowActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(UnitShowActivity.this, "متاسفانه خطایی در ارسال ایمیل اتفاق افتاده است ، لطفا بعدا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UnitShowActivity.this, "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -339,7 +357,7 @@ public class UnitShowActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(UnitShowActivity.this, "متاسفانه خطایی در ارسال ایمیل اتفاق افتاده است ، لطفا بعدا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UnitShowActivity.this, "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                     }
                 }
 

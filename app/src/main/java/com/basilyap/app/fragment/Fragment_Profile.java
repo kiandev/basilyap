@@ -1,5 +1,6 @@
 package com.basilyap.app.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +33,7 @@ import com.android.volley.toolbox.Volley;
 import com.basilyap.app.R;
 import com.basilyap.app.activity.AccountActivity;
 import com.basilyap.app.activity.ChatListActivity;
+import com.basilyap.app.activity.ForgetActivity;
 import com.basilyap.app.activity.MainActivity;
 import com.basilyap.app.activity.PasswordActivity;
 import com.basilyap.app.activity.RegisterActivity;
@@ -51,7 +54,7 @@ public class Fragment_Profile extends Fragment {
     CardView btn_login, btn_register;
     LinearLayout login_line, main_line;
     AppCompatEditText txt_getemail, txt_getpass;
-    TextView txt_profile_name;
+    TextView txt_profile_name, btnForget;
     LinearLayout btnAccount, btnExit, btnPassword, btnChat;
 
     @Override
@@ -99,6 +102,14 @@ public class Fragment_Profile extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), RegisterActivity.class));
+            }
+        });
+
+        btnForget = view.findViewById(R.id.btnForget);
+        btnForget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ForgetActivity.class));
             }
         });
 
@@ -214,6 +225,7 @@ public class Fragment_Profile extends Fragment {
                                     PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Password, get_password).apply();
                                     PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Phone, get_phone).apply();
                                     PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Register_OK, "yes").apply();
+                                    hideSoftKeyboard();
                                     Toast.makeText(getActivity(), "با موفقیت وارد حساب کاربری شدید", Toast.LENGTH_SHORT).show();
                                     txt_getemail.setText("");
                                     txt_getpass.setText("");
@@ -247,5 +259,10 @@ public class Fragment_Profile extends Fragment {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
+    }
+
+    public void hideSoftKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
     }
 }

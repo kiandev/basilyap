@@ -178,7 +178,7 @@
                             android:clickable="true"
                             android:padding="9dp"
                             android:tint="#5C6BC0"
-                            android:src="@drawable/about_icon" />
+                            android:src="@drawable/comunication_icon"/>
 
                     </RelativeLayout>
 
@@ -245,9 +245,9 @@
                             android:layout_centerVertical="true"
                             android:layout_marginRight="30dp"
                             android:clickable="true"
-                            android:padding="9dp"
+                            android:padding="10dp"
                             android:tint="#66BB6A"
-                            android:src="@drawable/comunication_icon" />
+                            android:src="@drawable/call_icon" />
 
                     </RelativeLayout>
 
