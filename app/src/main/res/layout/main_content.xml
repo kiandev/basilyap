@@ -242,20 +242,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="درباره ما"
-                            android:textSize="24sp"
+                            android:textSize="22sp"
                             android:fontFamily="@font/black"
+                            android:layout_marginLeft="35dp"
                             android:textColor="@color/colorWhite"
-                            android:gravity="center"/>
+                            android:gravity="left"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
                             android:text="همه چیز درباره بازیل یاپ ترکیه"
                             android:textSize="13sp"
-                            android:fontFamily="@font/regular"
+                            android:fontFamily="@font/bold"
                             android:textColor="@color/colorGray200"
-                            android:gravity="center"/>
+                            android:gravity="left"/>
 
                     </LinearLayout>
 
@@ -382,11 +384,11 @@
                                     android:layout_height="wrap_content"
                                     android:text="بازیل یاپ"
                                     android:layout_marginTop="5dp"
-                                    android:textSize="24sp"
+                                    android:layout_marginLeft="15dp"
+                                    android:textSize="22sp"
                                     android:fontFamily="@font/black"
                                     android:textColor="@color/colorWhite"
-                                    android:gravity="right"
-                                    android:layout_marginRight="25dp"/>
+                                    android:gravity="left"/>
 
                             </LinearLayout>
 

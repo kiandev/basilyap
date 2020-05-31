@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.basilyap.app">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -12,7 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ForgetActivity"></activity>
+        <activity android:name=".activity.ExchangeActivity"></activity>
+        <activity android:name=".activity.WeblogShowActivity" />
+        <activity android:name=".activity.WeblogListActivity" />
+        <activity android:name=".activity.AdvisorShowActivity" />
+        <activity android:name=".activity.AdvisorListActivity" />
+        <activity android:name=".activity.ForgetActivity" />
         <activity android:name=".activity.BugActivity" />
         <activity android:name=".activity.ChatListActivity" />
         <activity android:name=".activity.ChatActivity" />

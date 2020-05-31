@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
     LinearLayout get_email, get_code, get_password;
     public String email, code, password;
     public int randomNumber;
+    ImageView btn_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,14 @@ public class RegisterActivity extends AppCompatActivity {
         get_email = findViewById(R.id.get_email);
         get_code = findViewById(R.id.get_code);
         get_password = findViewById(R.id.get_password);
+
+        btn_back = findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         txt_getemail = findViewById(R.id.txt_getemail);

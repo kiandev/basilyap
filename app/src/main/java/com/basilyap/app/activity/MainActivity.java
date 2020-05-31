@@ -21,6 +21,7 @@ import com.basilyap.app.R;
 import com.basilyap.app.fragment.Fragment_Home;
 import com.basilyap.app.fragment.Fragment_Profile;
 import com.basilyap.app.fragment.Fragment_Units;
+import com.basilyap.app.fragment.Fragment_Vitrin;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new Fragment_Units();
                         break;
                     case R.id.item_vitrin:
-//                        fragment = new Admin_Fragment_Advisor();
+                        fragment = new Fragment_Vitrin();
                         break;
                     case R.id.item_profile:
                         fragment = new Fragment_Profile();
@@ -85,12 +86,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void btnAbout_click (View view){
-        startActivity(new Intent(MainActivity.this,AboutActivity.class));
+    public void btnAbout_click(View view) {
+        startActivity(new Intent(MainActivity.this, AboutActivity.class));
     }
 
-    public void btnComunication_click (View view){
-        startActivity(new Intent(MainActivity.this,ComunicationActivity.class));
+    public void btnComunication_click(View view) {
+        startActivity(new Intent(MainActivity.this, ComunicationActivity.class));
     }
 
     @Override
