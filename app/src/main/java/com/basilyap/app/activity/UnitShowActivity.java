@@ -201,8 +201,8 @@ public class UnitShowActivity extends AppCompatActivity {
     }
 
     private void loadUnitImage() {
-        String URL = HttpUrl.url + "unit/image";
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
+        String URL = HttpUrl.url + "image/unit";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -228,7 +228,15 @@ public class UnitShowActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(UnitShowActivity.this, "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                Log.d(TAG, "getParams: " + unit_id);
+                params.put("unit_id", unit_id);
+                return params;
+            }
+        };
         RequestQueue requestQueue = Volley.newRequestQueue(UnitShowActivity.this);
         requestQueue.add(stringRequest);
 

@@ -84,10 +84,16 @@ public class AdvisorShowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                try {
-
-                } catch (Exception e){
-                    e.printStackTrace();
+                if (get_phone.equals("")) {
+                    Toast.makeText(AdvisorShowActivity.this, "متاسفانه اطلاعاتی موجود نیست", Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        intent.setData(Uri.parse("tel:" + get_phone));
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Toast.makeText(AdvisorShowActivity.this, "متاسفانه خطایی نامشخصی رخ داده است", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

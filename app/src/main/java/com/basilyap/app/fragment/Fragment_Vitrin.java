@@ -51,7 +51,11 @@ public class Fragment_Vitrin extends Fragment {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                getdata();
+                try {
+                    getdata();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 

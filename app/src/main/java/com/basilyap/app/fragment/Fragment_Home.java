@@ -1,6 +1,8 @@
 package com.basilyap.app.fragment;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -73,6 +76,7 @@ public class Fragment_Home extends Fragment {
     ImageView btnMenu, btnNotification;
     ImageView top_banner;
     ProgressBar pb_top_banner;
+    TextView txt_version;
 
 
     @Override
@@ -86,9 +90,20 @@ public class Fragment_Home extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_home, container, false);
 
+        txt_version = view.findViewById(R.id.txt_version);
+        try {
+            PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo("com.basilyap.app",0);
+            String version = pInfo.versionName;
+            txt_version.setText("App Version : " + version);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
         top_banner = view.findViewById(R.id.top_banner);
         pb_top_banner = view.findViewById(R.id.pb_top_banner);
         String get_url_top_banner = HttpUrl.top_banner;
+        Log.d(TAG, "onCreateView: " + HttpUrl.top_banner);
 
         GlideApp
                 .with(getActivity())

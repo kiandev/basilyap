@@ -185,19 +185,19 @@ public class RegisterActivity extends AppCompatActivity {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                String get_email_from_shared = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SharedContract.Email, null);
-                String get_password_from_shared = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SharedContract.Password, null);
-                String get_tokenid_from_shared = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SharedContract.Token_Id, null);
+                String get_email_from_shared = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SharedContract.Email, "0");
+                String get_password_from_shared = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SharedContract.Password, "0");
+                String get_tokenid_from_shared = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SharedContract.Token_Id, "0");
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("name", "0");
                 params.put("email", get_email_from_shared);
                 params.put("password", get_password_from_shared);
-                params.put("image", "0");
                 params.put("tokenid", get_tokenid_from_shared);
+                params.put("phone", "0");
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
         requestQueue.add(stringRequest);
     }
 
