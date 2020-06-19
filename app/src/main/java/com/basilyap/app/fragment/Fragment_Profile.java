@@ -2,8 +2,10 @@ package com.basilyap.app.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -13,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +38,14 @@ import com.basilyap.app.activity.AccountActivity;
 import com.basilyap.app.activity.ChatListActivity;
 import com.basilyap.app.activity.ForgetActivity;
 import com.basilyap.app.activity.MainActivity;
+import com.basilyap.app.activity.OpinionActivity;
 import com.basilyap.app.activity.PasswordActivity;
 import com.basilyap.app.activity.RegisterActivity;
+import com.basilyap.app.classes.MyFirebaseMessagingService;
 import com.basilyap.app.utils.HttpUrl;
 import com.basilyap.app.utils.NetTest;
 import com.basilyap.app.utils.SharedContract;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,11 +57,13 @@ import java.util.Map;
 public class Fragment_Profile extends Fragment {
 
     public static final String TAG = MainActivity.TAG;
+    String tokenId;
     CardView btn_login, btn_register;
     LinearLayout login_line, main_line;
     AppCompatEditText txt_getemail, txt_getpass;
     TextView txt_profile_name, btnForget;
     LinearLayout btnAccount, btnExit, btnPassword, btnChat;
+    ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +75,13 @@ public class Fragment_Profile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_profile, container, false);
+
+        String get_tokenid_from_shared = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SharedContract.Token_Id,"0");
+        if (get_tokenid_from_shared.equals("0")){
+            subscribeUserToParse();
+        }
+
+        progressDialog = new ProgressDialog(getActivity());
 
         txt_getemail = view.findViewById(R.id.txt_getemail);
         txt_getpass = view.findViewById(R.id.txt_getpass);
@@ -89,9 +104,15 @@ public class Fragment_Profile extends Fragment {
                     Toast.makeText(getActivity(), "لطفا کلمه عبور خود را وارد نمایید", Toast.LENGTH_SHORT).show();
                 } else {
                     if (!NetTest.yes(getActivity())) {
-                        Toast.makeText(getActivity(),"لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                     } else {
-                        login();
+                        btn_login.setEnabled(false);
+                        btn_login.setClickable(false);
+                        try {
+                            login();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -143,11 +164,11 @@ public class Fragment_Profile extends Fragment {
                 yesButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Register_OK,"no").apply();
-                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Email,"").apply();
-                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Password,"").apply();
-                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Name,"").apply();
-                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Phone,"").apply();
+                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Register_OK, "no").apply();
+                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Email, "").apply();
+                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Password, "").apply();
+                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Name, "").apply();
+                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Phone, "").apply();
                         Toast.makeText(getActivity(), "با موفقیت از حساب کاربری خارج شدید", Toast.LENGTH_SHORT).show();
                         txt_profile_name.setText("");
                         login_line.setVisibility(View.VISIBLE);
@@ -189,6 +210,9 @@ public class Fragment_Profile extends Fragment {
     }
 
     public void login() {
+        progressDialog.setMessage("در حال بررسی ...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         String httpurl = HttpUrl.url + "user/login";
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 httpurl,
@@ -197,6 +221,9 @@ public class Fragment_Profile extends Fragment {
                     public void onResponse(String response) {
                         Log.d(TAG, "onResponse: " + response);
                         if (response.equals("[]")) {
+                            progressDialog.dismiss();
+                            btn_login.setEnabled(true);
+                            btn_login.setClickable(true);
                             final Dialog dialog = new Dialog(getActivity());
                             dialog.setContentView(R.layout.custom_dialog);
 //                            dialog.setTitle("Title...");
@@ -212,6 +239,19 @@ public class Fragment_Profile extends Fragment {
                             });
                             dialog.show();
                         } else {
+                            progressDialog.dismiss();
+                            btn_login.setEnabled(true);
+                            btn_login.setClickable(true);
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        change_account_detail();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
                             try {
                                 JSONArray jsonarray = new JSONArray(response);
                                 for (int i = 0; i < jsonarray.length(); i++) {
@@ -225,7 +265,11 @@ public class Fragment_Profile extends Fragment {
                                     PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Password, get_password).apply();
                                     PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Phone, get_phone).apply();
                                     PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Register_OK, "yes").apply();
-                                    hideSoftKeyboard();
+                                    try {
+                                        hideSoftKeyboard();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                     Toast.makeText(getActivity(), "با موفقیت وارد حساب کاربری شدید", Toast.LENGTH_SHORT).show();
                                     txt_getemail.setText("");
                                     txt_getpass.setText("");
@@ -242,7 +286,10 @@ public class Fragment_Profile extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "onErrorResponse: " + error);
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        btn_login.setEnabled(true);
+                        btn_login.setClickable(true);
                     }
                 }
 
@@ -265,4 +312,53 @@ public class Fragment_Profile extends Fragment {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
     }
+
+    public void change_account_detail() {
+        String httpurl = HttpUrl.url + "user/update_tokenid";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                httpurl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, "onResponse: " + response);
+                        if (response.equals("1")) {
+                            Log.d(TAG, "onResponse: " + "tokenid was updated");
+                        } else {
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "onErrorResponse: " + "error");
+                    }
+                }
+
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                String get_email_from_txt = txt_getemail.getText().toString();
+                String get_tokenid_from_shared = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SharedContract.Token_Id, "");
+                params.put("email", get_email_from_txt);
+                params.put("tokenid", get_tokenid_from_shared);
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(stringRequest);
+    }
+
+    private void subscribeUserToParse() {
+        tokenId = FirebaseInstanceId.getInstance().getToken();
+        if (TextUtils.isEmpty(tokenId)) {
+            Intent intent = new Intent(getActivity(), MyFirebaseMessagingService.class);
+            getActivity().startService(intent);
+            return;
+        }
+        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SharedContract.Token_Id, tokenId).apply();
+        Log.d(TAG, "subscribeUserToParse: " + tokenId);
+    }
+
 }

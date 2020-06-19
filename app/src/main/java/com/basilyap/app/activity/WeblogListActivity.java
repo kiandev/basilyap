@@ -76,7 +76,11 @@ public class WeblogListActivity extends AppCompatActivity {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    getdata();
+                    try {
+                        getdata();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -88,11 +92,17 @@ public class WeblogListActivity extends AppCompatActivity {
                 if (!NetTest.yes(WeblogListActivity.this)) {
                     Toast.makeText(WeblogListActivity.this, "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                 } else {
+                    btn_again.setEnabled(false);
+                    btn_again.setClickable(false);
                     no_internet.setVisibility(View.GONE);
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
-                            getdata();
+                            try {
+                                getdata();
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }
@@ -130,7 +140,7 @@ public class WeblogListActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(WeblogListActivity.this, "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WeblogListActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                     }
                 });
         RequestQueue requestQueue = Volley.newRequestQueue(WeblogListActivity.this);

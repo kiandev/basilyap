@@ -34,13 +34,14 @@ import java.util.ArrayList;
 public class UnitBaseAdapterHomeSpecial extends RecyclerView.Adapter<UnitBaseAdapterHomeSpecial.ViewHolder> {
 
 
+    public static final String TAG = MainActivity.TAG;
     private ArrayList<UnitBaseSpecial> os_version;
     private Context context;
-    public static final String TAG = MainActivity.TAG;
 
     public UnitBaseAdapterHomeSpecial(ArrayList<UnitBaseSpecial> arrayList) {
         os_version = arrayList;
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_unit_home_special, null);
@@ -70,13 +71,13 @@ public class UnitBaseAdapterHomeSpecial extends RecyclerView.Adapter<UnitBaseAda
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, UnitShowActivity.class);
-                intent.putExtra("unit_id" , holder.unit_id);
-                intent.putExtra("project_id" , holder.project_id);
+                intent.putExtra("unit_id", holder.unit_id);
+                intent.putExtra("project_id", holder.project_id);
                 Log.d(TAG, "onClick: " + holder.unit_id);
-                intent.putExtra("name" , unitBaseSpecial.getName());
-                intent.putExtra("type" , unitBaseSpecial.getType());
-                intent.putExtra("region" , unitBaseSpecial.getRegion());
-                intent.putExtra("price" , String.valueOf(unitBaseSpecial.getPrice()));
+                intent.putExtra("name", unitBaseSpecial.getName());
+                intent.putExtra("type", unitBaseSpecial.getType());
+                intent.putExtra("region", unitBaseSpecial.getRegion());
+                intent.putExtra("price", String.valueOf(unitBaseSpecial.getPrice()));
                 context.startActivity(intent);
             }
         });

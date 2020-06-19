@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,11 +43,16 @@ public class ForgetActivity extends AppCompatActivity {
     CardView btn_getemail;
     private String password;
     ImageView btn_back;
+    ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget);
+
+        progressDialog = new ProgressDialog(ForgetActivity.this);
+
 
         txt_getemail = findViewById(R.id.txt_getemail);
         btn_getemail = findViewById(R.id.btn_getemail);
@@ -68,12 +74,9 @@ public class ForgetActivity extends AppCompatActivity {
                     if (!NetTest.yes(ForgetActivity.this)) {
                         Toast.makeText(ForgetActivity.this, "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                     } else {
-                        AsyncTask.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                send_password();
-                            }
-                        });
+                        btn_getemail.setEnabled(false);
+                        btn_getemail.setClickable(false);
+                        send_password();
                     }
                 }
             }
@@ -82,6 +85,9 @@ public class ForgetActivity extends AppCompatActivity {
     }
 
     private void send_password() {
+        progressDialog.setMessage("در حال بررسی ...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         String httpurl = HttpUrl.url + "user/forget";
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 httpurl,
@@ -90,6 +96,9 @@ public class ForgetActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d(TAG, "onResponse: " + response);
                         if (response.equals("[]")) {
+                            progressDialog.dismiss();
+                            btn_getemail.setEnabled(true);
+                            btn_getemail.setClickable(true);
                             final Dialog dialog = new Dialog(ForgetActivity.this);
                             dialog.setContentView(R.layout.custom_dialog);
 //                            dialog.setTitle("Title...");
@@ -105,12 +114,22 @@ public class ForgetActivity extends AppCompatActivity {
                             });
                             dialog.show();
                         } else {
+                            progressDialog.dismiss();
                             try {
                                 JSONArray jsonarray = new JSONArray(response);
                                 for (int i = 0; i < jsonarray.length(); i++) {
                                     JSONObject jsonobject = jsonarray.getJSONObject(i);
                                     password = jsonobject.getString("password");
-                                    sendEmail();
+                                    AsyncTask.execute(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                sendEmail();
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -122,7 +141,10 @@ public class ForgetActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "onErrorResponse: " + error);
+                        progressDialog.dismiss();
+                        Toast.makeText(ForgetActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        btn_getemail.setEnabled(true);
+                        btn_getemail.setClickable(true);
                     }
                 }
 
@@ -166,7 +188,9 @@ public class ForgetActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ForgetActivity.this, "متاسفانه خطایی در ارسال ایمیل اتفاق افتاده است ، لطفا بعدا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ForgetActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        btn_getemail.setEnabled(true);
+                        btn_getemail.setClickable(true);
                     }
                 }
 

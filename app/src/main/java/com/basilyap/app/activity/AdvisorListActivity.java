@@ -79,7 +79,11 @@ public class AdvisorListActivity extends AppCompatActivity {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    getdata();
+                    try {
+                        getdata();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -91,11 +95,17 @@ public class AdvisorListActivity extends AppCompatActivity {
                 if (!NetTest.yes(AdvisorListActivity.this)) {
                     Toast.makeText(AdvisorListActivity.this, "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                 } else {
+                    btn_again.setEnabled(false);
+                    btn_again.setClickable(false);
                     no_internet.setVisibility(View.GONE);
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
-                            getdata();
+                            try {
+                                getdata();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }
@@ -135,7 +145,9 @@ public class AdvisorListActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AdvisorListActivity.this, "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AdvisorListActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        btn_again.setEnabled(true);
+                        btn_again.setClickable(true);
                     }
                 });
         RequestQueue requestQueue = Volley.newRequestQueue(AdvisorListActivity.this);

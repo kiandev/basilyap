@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
+
 import com.basilyap.app.R;
 import com.basilyap.app.classes.GlideApp;
 import com.basilyap.app.model.UnitBase;

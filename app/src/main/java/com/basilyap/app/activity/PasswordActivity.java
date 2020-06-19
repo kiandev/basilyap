@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -34,11 +35,14 @@ public class PasswordActivity extends AppCompatActivity {
     AppCompatEditText txt_old, txt_new;
     CardView btn_ok;
     ImageView btn_back;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
+
+        progressDialog = new ProgressDialog(PasswordActivity.this);
 
         txt_old = findViewById(R.id.txt_getold);
         txt_new = findViewById(R.id.txt_getnew);
@@ -67,6 +71,8 @@ public class PasswordActivity extends AppCompatActivity {
                     if (!NetTest.yes(PasswordActivity.this)) {
                         Toast.makeText(PasswordActivity.this, "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                     } else {
+                        btn_ok.setEnabled(false);
+                        btn_ok.setClickable(false);
                         change_account_password();
                     }
                 }
@@ -75,6 +81,9 @@ public class PasswordActivity extends AppCompatActivity {
     }
 
     private void change_account_password() {
+        progressDialog.setMessage("در حال ارسال ...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         String httpurl = HttpUrl.url + "user/change_pass";
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 httpurl,
@@ -83,6 +92,7 @@ public class PasswordActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d(TAG, "onResponse: " + response);
                         if (response.equals("1")) {
+                            progressDialog.dismiss();
                             final Dialog dialog = new Dialog(PasswordActivity.this);
                             dialog.setContentView(R.layout.custom_dialog);
 //                            dialog.setTitle("Title...");
@@ -98,15 +108,20 @@ public class PasswordActivity extends AppCompatActivity {
                             });
                             dialog.show();
                         } else {
-                            Toast.makeText(PasswordActivity.this, "متاسفانه خطایی در ارسال ایمیل اتفاق افتاده است ، لطفا بعدا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                            Toast.makeText(PasswordActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                            btn_ok.setEnabled(true);
+                            btn_ok.setClickable(true);
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "onErrorResponse: " + error);
-                        Toast.makeText(PasswordActivity.this, "متاسفانه خطایی رخ داده است ، لطفا مجددا بعدا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(PasswordActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        btn_ok.setEnabled(true);
+                        btn_ok.setClickable(true);
                     }
                 }
 

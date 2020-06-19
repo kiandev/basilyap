@@ -6,8 +6,11 @@ import androidx.cardview.widget.CardView;
 import androidx.work.impl.model.Preference;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,9 +26,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.basilyap.app.R;
+import com.basilyap.app.classes.MyFirebaseMessagingService;
 import com.basilyap.app.utils.HttpUrl;
 import com.basilyap.app.utils.NetTest;
 import com.basilyap.app.utils.SharedContract;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,17 +39,26 @@ import java.util.Random;
 public class RegisterActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.TAG;
+    public String email, code, password;
+    public int randomNumber;
+    String tokenId;
     AppCompatEditText txt_getemail, txt_getcode, txt_getpass;
     CardView btn_getemail, btn_getcode, btn_getpass;
     LinearLayout get_email, get_code, get_password;
-    public String email, code, password;
-    public int randomNumber;
     ImageView btn_back;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        String get_tokenid_from_shared = PreferenceManager.getDefaultSharedPreferences(RegisterActivity.this).getString(SharedContract.Token_Id,"0");
+        if (get_tokenid_from_shared.equals("0")){
+            subscribeUserToParse();
+        }
+
+        progressDialog = new ProgressDialog(RegisterActivity.this);
 
         get_email = findViewById(R.id.get_email);
         get_code = findViewById(R.id.get_code);
@@ -74,8 +88,10 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "لطفا ایمیل خود را وارد نمایید", Toast.LENGTH_SHORT).show();
                 } else {
                     if (!NetTest.yes(RegisterActivity.this)) {
-                        Toast.makeText(RegisterActivity.this,"لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                     } else {
+                        btn_getemail.setEnabled(false);
+                        btn_getemail.setClickable(false);
                         check_email_exist();
                     }
                 }
@@ -104,10 +120,12 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (txt_getpass.length() < 6) {
                     Toast.makeText(RegisterActivity.this, "کلمه عبور شما باید حداقل 6 عدد باشد", Toast.LENGTH_SHORT).show();
                 } else {
-                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(SharedContract.Password,txt_getpass.getText().toString()).apply();
+                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(SharedContract.Password, txt_getpass.getText().toString()).apply();
                     if (!NetTest.yes(RegisterActivity.this)) {
-                        Toast.makeText(RegisterActivity.this,"لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
-                    } else  {
+                        Toast.makeText(RegisterActivity.this, "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
+                    } else {
+                        btn_getpass.setEnabled(false);
+                        btn_getpass.setClickable(false);
                         register_user();
                     }
                 }
@@ -125,17 +143,14 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.d(TAG, "onResponse: " + response);
                         get_email.setVisibility(View.GONE);
                         get_code.setVisibility(View.VISIBLE);
-//                        if (response.equals("1")){
-//
-//                        } else {
-//                            Toast.makeText(RegisterActivity.this, "متاسفانه خطایی در ارسال ایمیل اتفاق افتاده است ، لطفا بعدا تلاش نمایید", Toast.LENGTH_SHORT).show();
-//                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(RegisterActivity.this, "متاسفانه خطایی در ارسال ایمیل اتفاق افتاده است ، لطفا بعدا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        btn_getemail.setEnabled(true);
+                        btn_getemail.setClickable(true);
                     }
                 }
 
@@ -159,6 +174,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void register_user() {
+        progressDialog.setMessage("در حال ارسال ...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         String httpurl = HttpUrl.url + "user";
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 httpurl,
@@ -166,19 +184,26 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d(TAG, "onResponse: " + response);
-                        if (response.equals("1")){
+                        if (response.equals("1")) {
+                            progressDialog.dismiss();
                             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(SharedContract.Register_OK, "yes").apply();
                             Toast.makeText(RegisterActivity.this, "حساب کاربری با موفقیت ایجاد شد", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
-
+                            progressDialog.dismiss();
+                            Toast.makeText(RegisterActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                            btn_getpass.setEnabled(true);
+                            btn_getpass.setClickable(true);
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "onErrorResponse: " + error);
+                        progressDialog.dismiss();
+                        Toast.makeText(RegisterActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        btn_getpass.setEnabled(true);
+                        btn_getpass.setClickable(true);
                     }
                 }
 
@@ -201,7 +226,10 @@ public class RegisterActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    public void check_email_exist(){
+    public void check_email_exist() {
+        progressDialog.setMessage("در حال بررسی ...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         String httpurl = HttpUrl.url + "user/email";
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 httpurl,
@@ -209,7 +237,8 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d(TAG, "onResponse: " + response);
-                        if (response.equals("1")){
+                        if (response.equals("1")) {
+                            progressDialog.dismiss();
                             final Dialog dialog = new Dialog(RegisterActivity.this);
                             dialog.setContentView(R.layout.custom_dialog);
 //                            dialog.setTitle("Title...");
@@ -225,6 +254,7 @@ public class RegisterActivity extends AppCompatActivity {
                             });
                             dialog.show();
                         } else {
+                            progressDialog.dismiss();
                             String get_email_from_txt = txt_getemail.getText().toString();
                             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(SharedContract.Email, get_email_from_txt).apply();
                             sendEmail();
@@ -249,6 +279,17 @@ public class RegisterActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(stringRequest);
+    }
+
+    private void subscribeUserToParse() {
+        tokenId = FirebaseInstanceId.getInstance().getToken();
+        if (TextUtils.isEmpty(tokenId)) {
+            Intent intent = new Intent(this, MyFirebaseMessagingService.class);
+            startService(intent);
+            return;
+        }
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(SharedContract.Token_Id, tokenId).apply();
+        Log.d(TAG, "subscribeUserToParse: " + tokenId);
     }
 
 }

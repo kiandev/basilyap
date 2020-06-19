@@ -58,12 +58,18 @@ public class ComunicationActivity extends AppCompatActivity {
                 if (!NetTest.yes(getApplicationContext())) {
                     Toast.makeText(ComunicationActivity.this, "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                 } else {
+                    btn_again.setEnabled(false);
+                    btn_again.setClickable(false);
                     no_internet.setVisibility(View.GONE);
                     main_line.setVisibility(View.VISIBLE);
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
-                            getdata();
+                            try {
+                                getdata();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }
@@ -90,7 +96,11 @@ public class ComunicationActivity extends AppCompatActivity {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    getdata();
+                    try {
+                        getdata();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -125,7 +135,7 @@ public class ComunicationActivity extends AppCompatActivity {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(get_telegram));
                     startActivity(intent);
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -138,7 +148,7 @@ public class ComunicationActivity extends AppCompatActivity {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(get_facebook));
                     startActivity(intent);
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -151,7 +161,7 @@ public class ComunicationActivity extends AppCompatActivity {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(get_youtube));
                     startActivity(intent);
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -164,7 +174,7 @@ public class ComunicationActivity extends AppCompatActivity {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(get_linkedin));
                     startActivity(intent);
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -174,11 +184,11 @@ public class ComunicationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent (Intent.ACTION_VIEW , Uri.parse("mailto:" + get_gmail));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + get_gmail));
 //                    intent.putExtra(Intent.EXTRA_SUBJECT, "ارسال پیام به بازیل هوم");
 //                    intent.putExtra(Intent.EXTRA_TEXT, "");
                     startActivity(intent);
-                } catch(Exception e) {
+                } catch (Exception e) {
                     Toast.makeText(ComunicationActivity.this, "متاسفانه اپلیکیشن مناسب جهت ارسال ایمیل یافت نشد", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
@@ -217,7 +227,9 @@ public class ComunicationActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(ComunicationActivity.this, "متاسفانه خطایی نامشخصی رخ داده است", Toast.LENGTH_SHORT).show();
+                        btn_again.setEnabled(true);
+                        btn_again.setClickable(true);
+                        Toast.makeText(ComunicationActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });
@@ -225,7 +237,4 @@ public class ComunicationActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-//    public void btn_instagram(){
-//
-//    }
 }

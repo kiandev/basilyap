@@ -33,9 +33,9 @@ import java.util.ArrayList;
 public class WeblogAdapter extends RecyclerView.Adapter<WeblogAdapter.ViewHolder> {
 
 
+    public static final String TAG = MainActivity.TAG;
     private ArrayList<Weblog> os_version;
     private Context context;
-    public static final String TAG = MainActivity.TAG;
 
     public WeblogAdapter(ArrayList<Weblog> arrayList) {
         os_version = arrayList;
@@ -83,10 +83,10 @@ public class WeblogAdapter extends RecyclerView.Adapter<WeblogAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, WeblogShowActivity.class);
-                intent.putExtra("title" , weblog.getTitle());
-                intent.putExtra("text" , weblog.getText());
-                intent.putExtra("date" , weblog.getDate());
-                intent.putExtra("image" , weblog.getImage());
+                intent.putExtra("title", weblog.getTitle());
+                intent.putExtra("text", weblog.getText());
+                intent.putExtra("date", weblog.getDate());
+                intent.putExtra("image", weblog.getImage());
                 context.startActivity(intent);
             }
         });

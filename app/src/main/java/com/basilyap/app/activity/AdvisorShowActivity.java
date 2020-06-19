@@ -1,15 +1,9 @@
 package com.basilyap.app.activity;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -19,12 +13,8 @@ import android.widget.Toast;
 
 import com.basilyap.app.R;
 import com.basilyap.app.classes.GlideApp;
-import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 
 public class AdvisorShowActivity extends AppCompatActivity {
 
@@ -92,7 +82,7 @@ public class AdvisorShowActivity extends AppCompatActivity {
                         intent.setData(Uri.parse("tel:" + get_phone));
                         startActivity(intent);
                     } catch (Exception e) {
-                        Toast.makeText(AdvisorShowActivity.this, "متاسفانه خطایی نامشخصی رخ داده است", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AdvisorShowActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -103,11 +93,11 @@ public class AdvisorShowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent (Intent.ACTION_VIEW , Uri.parse("mailto:" + get_email));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + get_email));
 //                    intent.putExtra(Intent.EXTRA_SUBJECT, "ارسال پیام به بازیل هوم");
 //                    intent.putExtra(Intent.EXTRA_TEXT, "");
                     startActivity(intent);
-                } catch(Exception e) {
+                } catch (Exception e) {
                     Toast.makeText(AdvisorShowActivity.this, "متاسفانه اپلیکیشن مناسب جهت ارسال ایمیل یافت نشد", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }

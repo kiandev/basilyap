@@ -92,7 +92,7 @@ public class Fragment_Home extends Fragment {
 
         txt_version = view.findViewById(R.id.txt_version);
         try {
-            PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo("com.basilyap.app",0);
+            PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo("com.basilyap.app", 0);
             String version = pInfo.versionName;
             txt_version.setText("App Version : " + version);
         } catch (PackageManager.NameNotFoundException e) {
@@ -103,7 +103,6 @@ public class Fragment_Home extends Fragment {
         top_banner = view.findViewById(R.id.top_banner);
         pb_top_banner = view.findViewById(R.id.pb_top_banner);
         String get_url_top_banner = HttpUrl.top_banner;
-        Log.d(TAG, "onCreateView: " + HttpUrl.top_banner);
 
         GlideApp
                 .with(getActivity())
@@ -178,11 +177,16 @@ public class Fragment_Home extends Fragment {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT,"اپلیکیشن بازیل یاپ را با دیگران به اشتراک بگذارید : https://play.google.com/store/apps/details?id=com.android.chrome");
-                intent.setType("text/plain");
-                startActivity(intent);
+                try {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_TEXT, "اپلیکیشن بازیل یاپ را با دیگران به اشتراک بگذارید : https://play.google.com/store/apps/details?id=com.android.chrome");
+                    intent.setType("text/plain");
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
@@ -192,14 +196,32 @@ public class Fragment_Home extends Fragment {
                 if (!NetTest.yes(getActivity())) {
                     Toast.makeText(getActivity(), "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                 } else {
+                    btn_again.setEnabled(false);
+                    btn_again.setClickable(false);
                     no_internet.setVisibility(View.GONE);
                     main_line.setVisibility(View.VISIBLE);
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
-                            loadUnitBase();
+                            try {
+                                loadUnitBase();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                loadUnitBaseSpecial();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+
                 }
             }
         });
@@ -229,13 +251,21 @@ public class Fragment_Home extends Fragment {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    loadUnitBase();
+                    try {
+                        loadUnitBase();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    loadUnitBaseSpecial();
+                    try {
+                        loadUnitBaseSpecial();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -277,7 +307,7 @@ public class Fragment_Home extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                     }
                 });
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -319,7 +349,7 @@ public class Fragment_Home extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                     }
                 });
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());

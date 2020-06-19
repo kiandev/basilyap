@@ -45,7 +45,7 @@ public class ChatListActivity extends AppCompatActivity {
     ImageView btn_back;
     private ChatAdapter mAdapter;
     LinearLayoutManager layoutManager;
-    LinearLayout no_internet, progressbar;
+    LinearLayout no_internet, no_data, progressbar;
     Button btn_again;
 
     @Override
@@ -54,6 +54,7 @@ public class ChatListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_list);
 
         no_internet = findViewById(R.id.no_internet);
+        no_data = findViewById(R.id.no_data);
         progressbar = findViewById(R.id.progressbar);
 
 
@@ -91,11 +92,17 @@ public class ChatListActivity extends AppCompatActivity {
                 if (!NetTest.yes(ChatListActivity.this)) {
                     Toast.makeText(ChatListActivity.this, "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                 } else {
+                    btn_again.setEnabled(false);
+                    btn_again.setClickable(false);
                     no_internet.setVisibility(View.GONE);
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
-                            getdata();
+                            try {
+                                getdata();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }
@@ -123,8 +130,12 @@ public class ChatListActivity extends AppCompatActivity {
                                 ));
                             }
                             progressbar.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
-                            recyclerView.setAdapter(mAdapter);
+                            if (mAdapter.getItemCount() == 0){
+                                no_data.setVisibility(View.VISIBLE);
+                            } else {
+                                recyclerView.setVisibility(View.VISIBLE);
+                                recyclerView.setAdapter(mAdapter);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -133,7 +144,9 @@ public class ChatListActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ChatListActivity.this, "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChatListActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        btn_again.setEnabled(true);
+                        btn_again.setClickable(true);
                     }
                 }) {
             @Override

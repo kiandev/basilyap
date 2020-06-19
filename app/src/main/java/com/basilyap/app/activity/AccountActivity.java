@@ -82,13 +82,19 @@ public class AccountActivity extends AppCompatActivity {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                loadAccountDetail();
+                try {
+                    loadAccountDetail();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
     }
 
     public void change_account_detail() {
+        btn_ok.setEnabled(false);
+        btn_ok.setClickable(false);
         String httpurl = HttpUrl.url + "user/update_detail";
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 httpurl,
@@ -97,8 +103,8 @@ public class AccountActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d(TAG, "onResponse: " + response);
                         if (response.equals("1")) {
-                            PreferenceManager.getDefaultSharedPreferences(AccountActivity.this).edit().putString(SharedContract.Name,txt_name.getText().toString()).apply();
-                            PreferenceManager.getDefaultSharedPreferences(AccountActivity.this).edit().putString(SharedContract.Phone,txt_phone.getText().toString()).apply();
+                            PreferenceManager.getDefaultSharedPreferences(AccountActivity.this).edit().putString(SharedContract.Name, txt_name.getText().toString()).apply();
+                            PreferenceManager.getDefaultSharedPreferences(AccountActivity.this).edit().putString(SharedContract.Phone, txt_phone.getText().toString()).apply();
                             final Dialog dialog = new Dialog(AccountActivity.this);
                             dialog.setContentView(R.layout.custom_dialog);
 //                            dialog.setTitle("Title...");
@@ -114,14 +120,17 @@ public class AccountActivity extends AppCompatActivity {
                             });
                             dialog.show();
                         } else {
-                            Toast.makeText(AccountActivity.this, "متاسفانه خطایی در ارسال ایمیل اتفاق افتاده است ، لطفا بعدا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AccountActivity.this, "متاسفانه خطایی رخ داده است ، لطفا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                            btn_ok.setEnabled(true);
+                            btn_ok.setClickable(true);
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "onErrorResponse: " + error);
+                        btn_ok.setEnabled(true);
+                        btn_ok.setClickable(true);
                         Toast.makeText(AccountActivity.this, "متاسفانه خطایی رخ داده است ، لطفا مجددا بعدا تلاش نمایید", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -156,8 +165,12 @@ public class AccountActivity extends AppCompatActivity {
                                 JSONObject jsonobject = jsonarray.getJSONObject(i);
                                 String get_name = jsonobject.getString("name");
                                 String get_phone = jsonobject.getString("phone");
-                                txt_name.setText(get_name);
-                                txt_phone.setText(get_phone);
+                                if (!get_name.equals("0")){
+                                    txt_name.setText(get_name);
+                                }
+                                if (!get_phone.equals("0")){
+                                    txt_phone.setText(get_phone);
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -167,7 +180,7 @@ public class AccountActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AccountActivity.this, "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(AccountActivity.this, "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                     }
                 }) {
             @Override

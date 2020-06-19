@@ -20,9 +20,9 @@ import java.util.ArrayList;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
 
+    public static final String TAG = MainActivity.TAG;
     private ArrayList<Chat> os_version;
     private Context context;
-    public static final String TAG = MainActivity.TAG;
 
     public ChatAdapter(ArrayList<Chat> arrayList) {
         os_version = arrayList;

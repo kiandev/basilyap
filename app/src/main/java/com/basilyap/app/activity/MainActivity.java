@@ -42,13 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-//            getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.colorBN_status));
-//            getWindow().setNavigationBarColor(ContextCompat.getColor(MainActivity.this,R.color.colorBN_status));
-//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-//        }
-
-
         bottomNavigationView = findViewById(R.id.bottomnavigation);
         bottomNavigationView.setSelectedItemId(R.id.item_home);
 

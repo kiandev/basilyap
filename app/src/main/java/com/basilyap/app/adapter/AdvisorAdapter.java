@@ -34,9 +34,9 @@ import java.util.ArrayList;
 public class AdvisorAdapter extends RecyclerView.Adapter<AdvisorAdapter.ViewHolder> {
 
 
+    public static final String TAG = MainActivity.TAG;
     private ArrayList<Advisor> os_version;
     private Context context;
-    public static final String TAG = MainActivity.TAG;
 
     public AdvisorAdapter(ArrayList<Advisor> arrayList) {
         os_version = arrayList;
@@ -84,13 +84,13 @@ public class AdvisorAdapter extends RecyclerView.Adapter<AdvisorAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AdvisorShowActivity.class);
-                intent.putExtra("id" , holder.id);
-                intent.putExtra("persian" , advisor.getPersian());
-                intent.putExtra("english" , advisor.getEnglish());
-                intent.putExtra("title" , advisor.getTitle());
-                intent.putExtra("email" , advisor.getEmail());
-                intent.putExtra("phone" , advisor.getPhone());
-                intent.putExtra("image" , advisor.getImage());
+                intent.putExtra("id", holder.id);
+                intent.putExtra("persian", advisor.getPersian());
+                intent.putExtra("english", advisor.getEnglish());
+                intent.putExtra("title", advisor.getTitle());
+                intent.putExtra("email", advisor.getEmail());
+                intent.putExtra("phone", advisor.getPhone());
+                intent.putExtra("image", advisor.getImage());
                 context.startActivity(intent);
             }
         });

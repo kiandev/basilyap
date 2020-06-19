@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,6 +23,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.basilyap.app.R;
+import com.basilyap.app.classes.fcm_to_panel;
+import com.basilyap.app.model.Chat;
 import com.basilyap.app.utils.HttpUrl;
 import com.basilyap.app.utils.NetTest;
 import com.basilyap.app.utils.SharedContract;
@@ -37,11 +40,15 @@ public class ChatActivity extends AppCompatActivity {
     TextView txt_title;
     AppCompatEditText txt_gettext;
     CardView btn_send;
+    ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        progressDialog = new ProgressDialog(ChatActivity.this);
 
         txt_title = findViewById(R.id.txt_title);
         txt_gettext = findViewById(R.id.txt_gettext);
@@ -58,7 +65,7 @@ public class ChatActivity extends AppCompatActivity {
         unit_id = intent.getStringExtra("unit_id");
         unit_name = intent.getStringExtra("unit_name");
 
-        txt_title.setText("شما در حال پرسش سوال در خصوص واحد شماره " + unit_name + " می باشید");
+        txt_title.setText("شما در حال پرسش سوال درباره واحد شماره " + unit_name + " می باشید");
 
         btn_send = findViewById(R.id.btn_send);
         btn_send.setOnClickListener(new View.OnClickListener() {
@@ -72,59 +79,81 @@ public class ChatActivity extends AppCompatActivity {
                     if (!NetTest.yes(ChatActivity.this)) {
                         Toast.makeText(ChatActivity.this,"لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                     } else {
-                        String httpurl = HttpUrl.url + "chat";
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                                httpurl,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        Log.d(TAG, "onResponse: " + response);
-                                        if (response.equals("1")){
-                                            final Dialog dialog = new Dialog(ChatActivity.this);
-                                            dialog.setContentView(R.layout.custom_dialog);
-//                            dialog.setTitle("Title...");
-                                            TextView text = dialog.findViewById(R.id.text);
-                                            dialog.setCancelable(false);
-                                            text.setText("سوال شما با موفقیت ارسال گردید ، لطفا منتظر پاسخگویی از سوی کارشناسان ما باشید . شما می توانید از قسمت پروفایل من و از بخش آرشیو پیام های ارسالی پاسخ سوالات خود را مرور نمایید . باتشکر ...!");
-                                            Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
-                                            dialogButton.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    finish();
-                                                }
-                                            });
-                                            dialog.show();
-                                        }  else {
-                                            Toast.makeText(ChatActivity.this, "متاسفانه خطایی رخ داده است ، لطفا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Log.d(TAG, "onErrorResponse: " + error);
-                                    }
-                                }
-
-                        ) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                String get_email_from_shared = PreferenceManager.getDefaultSharedPreferences(ChatActivity.this).getString(SharedContract.Email,"");
-                                String get_text_from_txt = txt_gettext.getText().toString();
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("email", get_email_from_shared);
-                                params.put("title", unit_id);
-                                params.put("question", get_text_from_txt);
-                                params.put("answer", "0");
-                                return params;
-                            }
-                        };
-                        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-                        requestQueue.add(stringRequest);
+                        btn_send.setEnabled(false);
+                        btn_send.setClickable(false);
+                        send_question();
                     }
                 }
             }
         });
 
+    }
+
+    public void send_question(){
+        progressDialog.setMessage("در حال ارسال ...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        String httpurl = HttpUrl.url + "chat";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                httpurl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, "onResponse: " + response);
+                        if (response.equals("1")){
+                            progressDialog.dismiss();
+
+                            try {
+                                fcm_to_panel sendnotif = new fcm_to_panel();
+                                sendnotif.sendNotification("/topics/UnitQuestion", "پرسش جدید", "یک پرسش جدید درباره واحد شماره " + unit_name + " " + "مطرح شده است");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            final Dialog dialog = new Dialog(ChatActivity.this);
+                            dialog.setContentView(R.layout.custom_dialog);
+//                            dialog.setTitle("Title...");
+                            TextView text = dialog.findViewById(R.id.text);
+                            dialog.setCancelable(false);
+                            text.setText("سوال شما با موفقیت ارسال گردید ، لطفا منتظر پاسخگویی از سوی کارشناسان ما باشید . شما می توانید از قسمت پروفایل من و از بخش آرشیو پیام های ارسالی پاسخ سوالات خود را مرور نمایید . باتشکر ...!");
+                            Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
+                            dialogButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    finish();
+                                }
+                            });
+                            dialog.show();
+                        }  else {
+                            progressDialog.dismiss();
+                            Toast.makeText(ChatActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                            btn_send.setEnabled(true);
+                            btn_send.setClickable(true);                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Toast.makeText(ChatActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        btn_send.setEnabled(true);
+                        btn_send.setClickable(true);                       }
+                }
+
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                String get_email_from_shared = PreferenceManager.getDefaultSharedPreferences(ChatActivity.this).getString(SharedContract.Email,"");
+                String get_text_from_txt = txt_gettext.getText().toString();
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("email", get_email_from_shared);
+                params.put("title", unit_id);
+                params.put("question", get_text_from_txt);
+                params.put("answer", "0");
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
     }
 }

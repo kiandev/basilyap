@@ -34,9 +34,9 @@ import java.util.ArrayList;
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
 
 
+    public static final String TAG = MainActivity.TAG;
     private ArrayList<Notification> os_version;
     private Context context;
-    public static final String TAG = MainActivity.TAG;
 
     public NotificationAdapter(ArrayList<Notification> arrayList) {
         os_version = arrayList;

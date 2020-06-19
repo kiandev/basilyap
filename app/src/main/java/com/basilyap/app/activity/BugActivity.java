@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +34,7 @@ public class BugActivity extends AppCompatActivity {
     AppCompatEditText txt_gettext;
     CardView btn_send;
     ImageView btn_back;
-
+    ProgressDialog progressDialog;
     public String manufacturer, model;
 
     @Override
@@ -41,7 +42,13 @@ public class BugActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bug);
 
-        getDeviceName();
+        progressDialog = new ProgressDialog(BugActivity.this);
+
+        try {
+            getDeviceName();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         txt_gettext = findViewById(R.id.txt_gettext);
         btn_send = findViewById(R.id.btn_send);
@@ -57,64 +64,80 @@ public class BugActivity extends AppCompatActivity {
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txt_gettext.getText().toString().trim().isEmpty()){
+                if (txt_gettext.getText().toString().trim().isEmpty()) {
                     Toast.makeText(BugActivity.this, "لطفا متن خود را وارد نمایید سپس دکمه ارسال را بفشارید", Toast.LENGTH_SHORT).show();
-                } else if (txt_gettext.getText().length() < 10){
+                } else if (txt_gettext.getText().length() < 10) {
                     Toast.makeText(BugActivity.this, "متن وارد شده کوتاه می باشد لطفا متن خود را کامل وارد نمایید", Toast.LENGTH_SHORT).show();
                 } else {
                     if (!NetTest.yes(BugActivity.this)) {
-                        Toast.makeText(BugActivity.this,"لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BugActivity.this, "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                     } else {
-                        String httpurl = HttpUrl.url + "bug";
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                                httpurl,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        Log.d(TAG, "onResponse: " + response);
-                                        if (response.equals("1")){
-                                            final Dialog dialog = new Dialog(BugActivity.this);
-                                            dialog.setContentView(R.layout.custom_dialog);
-//                            dialog.setTitle("Title...");
-                                            TextView text = dialog.findViewById(R.id.text);
-                                            dialog.setCancelable(false);
-                                            text.setText("گزارش شما با موفقیت ارسال گردید ، باتشکر ...!");
-                                            Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
-                                            dialogButton.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    finish();
-                                                }
-                                            });
-                                            dialog.show();
-                                        } else {
-                                            Toast.makeText(BugActivity.this, "متاسفانه خطایی رخ داده است ، لطفا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Log.d(TAG, "onErrorResponse: " + error);
-                                    }
-                                }
-
-                        ) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                String get_text_from_txt = txt_gettext.getText().toString();
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("message", get_text_from_txt);
-                                params.put("model", manufacturer + " " + model);
-                                return params;
-                            }
-                        };
-                        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-                        requestQueue.add(stringRequest);
+                        btn_send.setEnabled(false);
+                        btn_send.setClickable(false);
+                        send_bug();
                     }
                 }
             }
         });
+    }
+
+    public void send_bug() {
+        progressDialog.setMessage("در حال ارسال ...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        String httpurl = HttpUrl.url + "bug";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                httpurl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, "onResponse: " + response);
+                        if (response.equals("1")) {
+                            progressDialog.dismiss();
+                            final Dialog dialog = new Dialog(BugActivity.this);
+                            dialog.setContentView(R.layout.custom_dialog);
+//                            dialog.setTitle("Title...");
+                            TextView text = dialog.findViewById(R.id.text);
+                            dialog.setCancelable(false);
+                            text.setText("پیام شما با موفقیت ارسال گردید ، باتشکر ...!");
+                            Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
+                            dialogButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    finish();
+                                }
+                            });
+                            dialog.show();
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(BugActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                            btn_send.setEnabled(true);
+                            btn_send.setClickable(true);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Toast.makeText(BugActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        btn_send.setEnabled(true);
+                        btn_send.setClickable(true);
+                    }
+                }
+
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                String get_text_from_txt = txt_gettext.getText().toString();
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("message", get_text_from_txt);
+                params.put("model", manufacturer + " " + model);
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
     }
 
     public String getDeviceName() {

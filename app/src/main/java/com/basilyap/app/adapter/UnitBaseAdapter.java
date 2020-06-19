@@ -33,9 +33,9 @@ import java.util.ArrayList;
 public class UnitBaseAdapter extends RecyclerView.Adapter<UnitBaseAdapter.ViewHolder> {
 
 
+    public static final String TAG = MainActivity.TAG;
     private ArrayList<UnitBase> os_version;
     private Context context;
-    public static final String TAG = MainActivity.TAG;
 
     public UnitBaseAdapter(ArrayList<UnitBase> arrayList) {
         os_version = arrayList;
@@ -85,13 +85,13 @@ public class UnitBaseAdapter extends RecyclerView.Adapter<UnitBaseAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, UnitShowActivity.class);
-                intent.putExtra("unit_id" , holder.unit_id);
-                intent.putExtra("project_id" , holder.project_id);
+                intent.putExtra("unit_id", holder.unit_id);
+                intent.putExtra("project_id", holder.project_id);
                 Log.d(TAG, "onClick: " + holder.unit_id);
-                intent.putExtra("name" , unitBase.getName());
-                intent.putExtra("type" , unitBase.getType());
-                intent.putExtra("region" , unitBase.getRegion());
-                intent.putExtra("price" , String.valueOf(unitBase.getPrice()));
+                intent.putExtra("name", unitBase.getName());
+                intent.putExtra("type", unitBase.getType());
+                intent.putExtra("region", unitBase.getRegion());
+                intent.putExtra("price", String.valueOf(unitBase.getPrice()));
                 context.startActivity(intent);
             }
         });

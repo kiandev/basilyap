@@ -1,6 +1,7 @@
 package com.basilyap.app.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,8 +19,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static String tokenId;
     public static final String TAG = MainActivity.TAG;
+    String tokenId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

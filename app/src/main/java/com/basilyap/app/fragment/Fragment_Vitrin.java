@@ -53,7 +53,7 @@ public class Fragment_Vitrin extends Fragment {
             public void run() {
                 try {
                     getdata();
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -87,10 +87,10 @@ public class Fragment_Vitrin extends Fragment {
         btn_instagram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse(get_instagram);
-                Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
-                likeIng.setPackage("com.instagram.android");
                 try {
+                    Uri uri = Uri.parse(get_instagram);
+                    Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
+                    likeIng.setPackage("com.instagram.android");
                     startActivity(likeIng);
                 } catch (ActivityNotFoundException e) {
                     startActivity(new Intent(Intent.ACTION_VIEW,
@@ -138,7 +138,7 @@ public class Fragment_Vitrin extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(getActivity(), "متاسفانه خطایی نامشخصی رخ داده است", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
 
                     }
                 });

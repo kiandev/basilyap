@@ -47,13 +47,11 @@ import java.util.TimerTask;
 
 public class UnitShowActivity extends AppCompatActivity {
 
+    public static final String TAG = MainActivity.TAG;
     private static ViewPager mPager;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
-    public static final String TAG = MainActivity.TAG;
     ArrayList<UnitImage> os_version_unitimage = new ArrayList<>();
-    private JSONObject jsonObject;
-    private SlidingImage_Adapter mAdapter_unitiamge;
     CirclePageIndicator indicator;
     TextView txt_name, txt_type, txt_region, txt_price;
     TextView txt_measure, txt_room, txt_floor, txt_status;
@@ -65,6 +63,8 @@ public class UnitShowActivity extends AppCompatActivity {
     LinearLayout no_internet;
     ScrollView main_line;
     Button btn_again, btnChat;
+    private JSONObject jsonObject;
+    private SlidingImage_Adapter mAdapter_unitiamge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,19 +81,29 @@ public class UnitShowActivity extends AppCompatActivity {
                 if (!NetTest.yes(getApplicationContext())) {
                     Toast.makeText(UnitShowActivity.this, "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                 } else {
+                    btn_again.setEnabled(false);
+                    btn_again.setClickable(false);
                     no_internet.setVisibility(View.GONE);
                     main_line.setVisibility(View.VISIBLE);
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
-                            loadUnitImage();
+                            try {
+                                loadUnitImage();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
                         }
                     });
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
-                            loadUnitAdvances();
+                            try {
+                                loadUnitAdvances();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }
@@ -151,20 +161,32 @@ public class UnitShowActivity extends AppCompatActivity {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    loadUnitImage();
+                    try {
+                        loadUnitImage();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                 }
             });
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    loadUnitAdvances();
+                    try {
+                        loadUnitAdvances();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    loadProject();
+                    try {
+                        loadProject();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -226,7 +248,7 @@ public class UnitShowActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(UnitShowActivity.this, "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UnitShowActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                     }
                 }) {
             @Override
@@ -311,7 +333,7 @@ public class UnitShowActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(UnitShowActivity.this, "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UnitShowActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -365,7 +387,7 @@ public class UnitShowActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(UnitShowActivity.this, "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UnitShowActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                     }
                 }
 

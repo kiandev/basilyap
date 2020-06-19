@@ -50,12 +50,18 @@ public class ExchangeActivity extends AppCompatActivity {
                 if (!NetTest.yes(getApplicationContext())) {
                     Toast.makeText(ExchangeActivity.this, "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                 } else {
+                    btn_again.setEnabled(false);
+                    btn_again.setClickable(false);
                     no_internet.setVisibility(View.GONE);
                     main_line.setVisibility(View.VISIBLE);
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
-                            getdata();
+                            try {
+                                getdata();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }
@@ -83,7 +89,11 @@ public class ExchangeActivity extends AppCompatActivity {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    getdata();
+                    try {
+                        getdata();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -114,7 +124,9 @@ public class ExchangeActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(ExchangeActivity.this, "متاسفانه خطایی نامشخصی رخ داده است", Toast.LENGTH_SHORT).show();
+                        btn_again.setEnabled(true);
+                        btn_again.setClickable(true);
+                        Toast.makeText(ExchangeActivity.this, "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });

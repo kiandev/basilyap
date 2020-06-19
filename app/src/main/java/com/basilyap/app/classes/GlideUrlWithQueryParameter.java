@@ -16,8 +16,7 @@ public class GlideUrlWithQueryParameter extends GlideUrl {
 
         if (stringBuilder.toString().contains("?")) {
             stringBuilder.append("&");
-        }
-        else {
+        } else {
             stringBuilder.append("?");
         }
 

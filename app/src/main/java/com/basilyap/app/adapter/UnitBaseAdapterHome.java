@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.basilyap.app.R;
 import com.basilyap.app.activity.MainActivity;
 import com.basilyap.app.activity.UnitShowActivity;
@@ -32,9 +33,9 @@ import java.util.ArrayList;
 public class UnitBaseAdapterHome extends RecyclerView.Adapter<UnitBaseAdapterHome.ViewHolder> {
 
 
+    public static final String TAG = MainActivity.TAG;
     private ArrayList<UnitBase> os_version;
     private Context context;
-    public static final String TAG = MainActivity.TAG;
 
     public UnitBaseAdapterHome(ArrayList<UnitBase> arrayList) {
         os_version = arrayList;
@@ -82,13 +83,13 @@ public class UnitBaseAdapterHome extends RecyclerView.Adapter<UnitBaseAdapterHom
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, UnitShowActivity.class);
-                intent.putExtra("unit_id" , holder.unit_id);
-                intent.putExtra("project_id" , holder.project_id);
+                intent.putExtra("unit_id", holder.unit_id);
+                intent.putExtra("project_id", holder.project_id);
                 Log.d(TAG, "onClick: " + holder.unit_id);
-                intent.putExtra("name" , unitBase.getName());
-                intent.putExtra("type" , unitBase.getType());
-                intent.putExtra("region" , unitBase.getRegion());
-                intent.putExtra("price" , String.valueOf(unitBase.getPrice()));
+                intent.putExtra("name", unitBase.getName());
+                intent.putExtra("type", unitBase.getType());
+                intent.putExtra("region", unitBase.getRegion());
+                intent.putExtra("price", String.valueOf(unitBase.getPrice()));
                 context.startActivity(intent);
             }
         });

@@ -2,6 +2,7 @@ package com.basilyap.app.fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,7 +67,7 @@ public class Fragment_Units extends Fragment {
         mAdapter_unitbase = new UnitBaseAdapter(os_version_unitbase);
 
 
-        if (!NetTest.yes(getActivity())){
+        if (!NetTest.yes(getActivity())) {
 //            Toast.makeText(getActivity(), "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
         } else {
             no_internet.setVisibility(View.GONE);
@@ -74,7 +75,11 @@ public class Fragment_Units extends Fragment {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    loadUnitBase();
+                    try {
+                        loadUnitBase();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -85,12 +90,18 @@ public class Fragment_Units extends Fragment {
                 if (!NetTest.yes(getActivity())) {
                     Toast.makeText(getActivity(), "لطفا ابتدا دستگاه خود را به اینترنت متصل نمایید", Toast.LENGTH_SHORT).show();
                 } else {
+                    btn_again.setEnabled(false);
+                    btn_again.setClickable(false);
                     no_internet.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
-                            loadUnitBase();
+                            try {
+                                loadUnitBase();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }
@@ -134,7 +145,7 @@ public class Fragment_Units extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), "متاسفانه خطایی نامشخصی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "متاسفانه خطایی رخ داده است ، لطفا بعدا مجددا تلاش نمایید", Toast.LENGTH_SHORT).show();
                     }
                 });
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
